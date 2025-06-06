@@ -159,99 +159,65 @@ Modern data architecture is a **secure, flexible, and highly-scalable system** f
 4. **Choose mesh or fabric** based on organizational structure: mesh for federated domains, fabric for centralized integration.
 5. **Automate everything**—CI/CD for data (dbt, Terraform) and robust monitoring to keep pipelines reliable and cost-efficient.
 
-
-
 # Virtualization and Containerization Concepts
 
-Modern computing environments use virtualization to abstract resources at different levels, allowing greater scalability, isolation, and operational efficiency. There are three primary levels of virtualization, each offering increasing levels of abstraction and flexibility.
+Modern computing uses virtualization at various levels to optimize scalability, isolation, and efficiency.
 
 ---
 
-## 1. Hardware Virtualization (System Virtualization)
+## Virtualization vs. Containerization
 
-**Description**: Hardware virtualization abstracts the entire physical machine, allowing multiple operating systems to run concurrently on a single physical server.
+- **Virtualization**: Simulates complete systems via VMs with full OS, managed by hypervisors (e.g., VMware, Hyper-V).  
+  - **Use Cases**: Legacy system isolation, server consolidation  
+  - **Tools**: VMware, VirtualBox, KVM
 
-**How it works**: A hypervisor (also called a Virtual Machine Monitor) sits between the hardware and the virtual machines, allocating resources to each VM.
+- **Containerization**: OS-level virtualization; packages apps + dependencies in containers (e.g., Docker).  
+  - **Use Cases**: Microservices, CI/CD, cross-platform portability  
+  - **Tools**: Docker, containerd, Kubernetes
 
-**Examples of Hypervisors**:
-- VMware ESXi
-- Microsoft Hyper-V
-- KVM (Kernel-based Virtual Machine)
+### Key Differences
 
-**Common Use Cases**:
-- Running multiple isolated environments for legacy systems
-- Consolidating workloads on fewer physical servers
-
-**Advantages**:
-- Strong operating system-level isolation
-- Mature, stable ecosystems
-
-**Disadvantages**:
-- Higher resource overhead
-- Slower start-up and scaling compared to containers
+| Feature         | Virtual Machines                        | Containers                         |
+|----------------|------------------------------------------|------------------------------------|
+| Abstraction     | Hardware + OS                           | Application layer only             |
+| Startup Time    | Slow                                    | Instant                            |
+| Portability     | Limited                                 | High                               |
+| Isolation       | Strong (guest OS)                       | Moderate (shared kernel)           |
+| Resource Usage  | Heavy                                   | Lightweight                        |
 
 ---
 
-## 2. Containerization (Application Virtualization)
+## 1. Hardware Virtualization (System-Level)
 
-**Description**: Containerization abstracts at the application layer by packaging an application along with its dependencies into containers. Containers share the host OS kernel but run in isolated user spaces.
-
-**How it works**: Containers are created and managed using container runtimes (e.g., Docker) and can be orchestrated at scale using systems like Kubernetes.
-
-**Key Technologies**:
-- Docker
-- containerd
-- Kubernetes (for orchestration)
-
-**Common Use Cases**:
-- Microservices architectures
-- CI/CD pipelines
-- Platform-agnostic deployment
-
-**Advantages**:
-- Lightweight and efficient
-- Faster startup times than virtual machines
-- High portability across environments
-
-**Disadvantages**:
-- Less isolation than virtual machines
-- Requires orchestration complexity at scale
+- **Abstracts** physical machines to run multiple OS instances via hypervisors  
+- **Tools**: VMware ESXi, Hyper-V, KVM  
+- **Pros**: Strong isolation, legacy support  
+- **Cons**: High overhead, slower performance
 
 ---
 
-## 3. Function Virtualization (Serverless / Function-as-a-Service)
+## 2. Containerization (App-Level)
 
-**Description**: Function virtualization abstracts the infrastructure entirely. Developers deploy individual functions that are executed on-demand in response to specific triggers or events.
-
-**How it works**: The cloud provider manages all aspects of infrastructure, including scaling, patching, and load balancing.
-
-**Key Technologies**:
-- AWS Lambda
-- Google Cloud Functions
-- Azure Functions
-
-**Common Use Cases**:
-- Event-driven data processing
-- Lightweight API backends
-- Automation scripts
-
-**Advantages**:
-- No infrastructure management required
-- Automatic scaling and pay-per-use pricing
-- Simplified deployment of event-driven logic
-
-**Disadvantages**:
-- Cold start latency for infrequently used functions
-- Execution time and memory limits
-- Potential vendor lock-in
+- **Abstracts** at OS level; apps run in isolated containers sharing host kernel  
+- **Tools**: Docker, Kubernetes  
+- **Pros**: Fast, portable, resource-efficient  
+- **Cons**: Less isolation, orchestration complexity
 
 ---
 
-## Summary Comparison
+## 3. Function Virtualization (Serverless)
 
-| Level | Name                     | Technology Examples               | Virtualization Target      | Abstraction Focus        |
-|-------|--------------------------|-----------------------------------|-----------------------------|---------------------------|
-| 1     | Hardware Virtualization  | VMware, Hyper-V, KVM              | Entire Operating System     | Infrastructure Layer      |
-| 2     | Containerization         | Docker, Kubernetes                | Application + Dependencies  | Application Layer         |
-| 3     | Function Virtualization  | AWS Lambda, GCF, Azure Functions  | Individual Function Calls   | Function/Event Layer      |
+- **Abstracts** infrastructure entirely—deploy logic as event-driven functions  
+- **Tools**: AWS Lambda, GCF, Azure Functions  
+- **Pros**: No infrastructure mgmt, auto-scaling, pay-per-use  
+- **Cons**: Cold starts, resource limits, vendor lock-in
 
+---
+
+## Summary Table
+
+| Level | Name                    | Examples                         | Target                     | Abstraction Layer        |
+|-------|-------------------------|----------------------------------|-----------------------------|---------------------------|
+| 1     | Hardware Virtualization | VMware, Hyper-V, KVM             | Entire OS                  | Infrastructure            |
+| 2     | Containerization        | Docker, Kubernetes               | App + Dependencies         | Application               |
+| 3     | Function Virtualization | AWS Lambda, GCF, Azure Functions | Individual Function Logic  | Event/Function Layer      |
